@@ -74,5 +74,5 @@ def fund_with_link(
     # link_token_contract = interface.LinkTokenInterface(link_token.address)
     # tx = link_token_contract.transfer(contract_address, amount, {"from": account})
     tx.wait(1)
-    print("Fund contract!")
+    print(f"Fund contract {contract_address} !")
     return tx

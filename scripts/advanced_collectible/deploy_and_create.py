@@ -1,4 +1,9 @@
-from scripts.helpful_scripts import get_account, get_contract, OPENSEA_URL
+from scripts.helpful_scripts import (
+    fund_with_link,
+    get_account,
+    get_contract,
+    OPENSEA_URL,
+)
 from brownie import AdvancedCollectible, network, config
 
 
@@ -11,10 +16,11 @@ def deploy_and_create():
         config["networks"][network.show_active()]["fee"],
         {"from": account},
     )
-    print(
-        f"Awesome, you can view your NFT at {OPENSEA_URL.format(advanced_collectible.address, advanced_collectible.tokenCounter()-1)}"
-    )
-    return advanced_collectible
+    fund_with_link(advanced_collectible.address)
+    creating_tx = advanced_collectible.createCollectible({"from": account})
+    creating_tx.wait(1)
+    print("New token has been created!")
+    return advanced_collectible, creating_tx
 
 
 def main():
